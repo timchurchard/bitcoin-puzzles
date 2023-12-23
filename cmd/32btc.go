@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"runtime"
+	"time"
 
 	"github.com/timchurchard/bitcoin-puzzles/internal"
 )
@@ -49,15 +50,27 @@ func BTC32(out io.Writer) int {
 	flag.Parse()
 
 	ch := make(chan bool)
+	runCount := 0
+	runner := 0
 
-	for i := 0; i < workers; i++ {
-		go internal.BTC32Worker(ch, i, count, stats, miniMode)
+	for {
+		go internal.BTC32Worker(ch, runner, count, stats, miniMode)
+		runCount += 1
+
+		runner += 1
+		if runner > workers {
+			runner = 0
+		}
+
+		if runCount >= workers {
+			result := <-ch
+			if result {
+				time.Sleep(10 * time.Second)
+
+				return 0
+			}
+
+			runCount -= 1
+		}
 	}
-
-	result := <-ch
-	if result {
-		return 0
-	}
-
-	return 1
 }
