@@ -12,7 +12,7 @@ require (
 	github.com/stretchr/testify v1.8.4
 	github.com/timchurchard/opendime-utils v0.0.0-20231218070132-a499297e4e21
 	go.step.sm/crypto v0.40.0
-	golang.org/x/crypto v0.16.0
+	golang.org/x/crypto v0.17.0
 )
 
 require (
