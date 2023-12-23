@@ -1,6 +1,6 @@
 module github.com/timchurchard/bitcoin-puzzles
 
-go 1.21.5
+go 1.20
 
 require (
 	github.com/btcsuite/btcd v0.23.4
