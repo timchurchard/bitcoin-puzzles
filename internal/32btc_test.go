@@ -106,13 +106,28 @@ func Test_hexToNum(t *testing.T) {
 }
 
 func Test_checkPuzzlePriv(t *testing.T) {
-	testKey65, _ := hex.DecodeString("000000000000000000000000000000000000000000000001a838b13505b26867")
+	t.Run("mock true", func(t *testing.T) {
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		mockPD := NewMockPuzzleAddress(ctrl)
+		mockPD.EXPECT().IsTestMode().Return(false)
+		mockPD.EXPECT().IsMiniMode().Return(true)
+		mockPD.EXPECT().HasAddress("161nAtMQjUrJNKG31mZvigsTRLUFbawseB").Return(false)
+		mockPD.EXPECT().HasAddress("1HqajQQ1LgmmbSg54DKaYntvVrjoTR9dLf").Return(false)
+		mockPD.EXPECT().HasAddress("13rwmSfUHN2jJ9LqXcKSrKFhPSecw8T1NH").Return(true)
+
+		testKey, _ := hex.DecodeString("000000000000000000000000000000000000000000000000deadbeefdeadbeef")
+
+		assert.True(t, checkPuzzlePriv(testKey, mockPD))
+	})
 
 	t.Run("mock true", func(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
 		mockPD := NewMockPuzzleAddress(ctrl)
+		mockPD.EXPECT().IsTestMode().Return(false)
 		mockPD.EXPECT().IsMiniMode().Return(true)
 		mockPD.EXPECT().HasAddress("161nAtMQjUrJNKG31mZvigsTRLUFbawseB").Return(false)
 		mockPD.EXPECT().HasAddress("1HqajQQ1LgmmbSg54DKaYntvVrjoTR9dLf").Return(false)
@@ -126,6 +141,16 @@ func Test_checkPuzzlePriv(t *testing.T) {
 	t.Run("real (minmode) false", func(t *testing.T) {
 		pd := NewRealPuzzleAddress(false, true, false)
 
-		assert.False(t, checkPuzzlePriv(testKey65, pd))
+		testKey, _ := hex.DecodeString("000000000000000000000000000000000000000000000000deadbeefdeadbeef")
+
+		assert.False(t, checkPuzzlePriv(testKey, pd)) // Note: result false as < 66-bit not supported
+	})
+
+	t.Run("real testmode", func(t *testing.T) {
+		pd := NewRealPuzzleAddress(true, false, false)
+
+		testKey65, _ := hex.DecodeString("000000000000000000000000000000000000000000000001a838b13505b26867")
+
+		assert.True(t, checkPuzzlePriv(testKey65, pd))
 	})
 }
