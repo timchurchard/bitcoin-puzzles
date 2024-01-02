@@ -87,11 +87,14 @@ func checkPuzzlePriv(privKeyBytes []byte, pd PuzzleAddress) bool {
 		testBytes []byte
 	)
 
-	if pd.IsMiniMode() {
+	if pd.IsTestMode() {
+		// Do nothing
+		firstByte = 0
+		testBytes = []byte{privKeyBytes[0]}
+	} else if pd.IsMiniMode() {
 		// 66, 67 & 68-bit range 20000000000000000..fffffffffffffffff
 		firstByte = 23
 		testBytes = []byte{0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f}
-
 	} else {
 		// 1ffffffffffffffffffffffff..7ffffffffffffffffffffffff
 		firstByte = 19

@@ -3,6 +3,7 @@ package internal
 
 type PuzzleAddress interface {
 	HasAddress(addr string) bool
+	IsTestMode() bool
 	IsMiniMode() bool
 }
 
@@ -19,6 +20,10 @@ func NewRealPuzzleAddress(testMode, minMode, overHundred bool) realPuzzleAddress
 		minMode:     minMode,
 		overHundred: overHundred,
 	}
+}
+
+func (r realPuzzleAddress) IsTestMode() bool {
+	return r.testMode
 }
 
 func (r realPuzzleAddress) IsMiniMode() bool {
