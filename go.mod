@@ -11,7 +11,7 @@ require (
 	github.com/sour-is/bitcoin v0.0.0-20180314143529-d37365313634
 	github.com/stretchr/testify v1.9.0
 	github.com/timchurchard/opendime-utils v0.0.0-20231218070132-a499297e4e21
-	go.step.sm/crypto v0.44.5
+	go.step.sm/crypto v0.47.1
 	golang.org/x/crypto v0.24.0
 )
 
