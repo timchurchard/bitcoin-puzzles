@@ -3,9 +3,9 @@ module github.com/timchurchard/bitcoin-puzzles
 go 1.20
 
 require (
-	github.com/btcsuite/btcd v0.24.0
+	github.com/btcsuite/btcd v0.24.2
 	github.com/btcsuite/btcd/btcec/v2 v2.3.3
-	github.com/btcsuite/btcd/btcutil v1.1.5
+	github.com/btcsuite/btcd/btcutil v1.1.6
 	github.com/golang/mock v1.6.0
 	github.com/piotrnar/gocoin v0.0.0-20231217122541-7b6cb9897a2c
 	github.com/sour-is/bitcoin v0.0.0-20180314143529-d37365313634
